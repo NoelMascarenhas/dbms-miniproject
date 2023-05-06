@@ -15,8 +15,22 @@
     transition: all 0.2s ease-in-out;
   }
   
+  
   .nav-link:hover {
     background-color: #e0e0e0;
     border-radius: 3px;
     color: #333333;
   }
+  
+  .hover-btn:hover{
+    background: #222;
+    color: #fff;
+    transition: 0.3s;
+  }
+
+  .hover-btn1:hover{
+    background: #222;
+    color: #fff;
+    transition: 0.3s;
+  }
+  

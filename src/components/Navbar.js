@@ -48,9 +48,8 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-
-
 import './Navbar.css';
+import styled from "styled-components";
 
 export default function Navbar(props) {
   const navigate = useNavigate();
@@ -63,13 +62,27 @@ export default function Navbar(props) {
     alert("Logged Out Successfully");
   };
 
+  const StyledLink = styled(Link)`
+    padding: 10px 25px;
+    margin-left: 10px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: rgb(248,217,15);
+    color: #222;
+    border: 1px solid #222;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+`;
+
   return (
     <>
-    
+
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
-            <img src="https://www.iaccindia.com/wp-content/uploads/2018/10/Final-MIT-WPU-logo-page-001.jpg" alt="MIT-WPU logo" width="150" height="50" className="d-inline-block align-text-top me-2" />
+            <img src="https://www.iaccindia.com/wp-content/uploads/2018/10/Final-MIT-WPU-logo-page-001.jpg" alt="MIT-WPU logo" width="200" height="150" className="d-inline-block align-text-top me-2" />
           </a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
@@ -77,15 +90,15 @@ export default function Navbar(props) {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/">MIT-WPU</a>
+                <a className="nav-link active" aria-current="page" href="/">HOME</a>
               </li>
             </ul>
-            <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center justify-content-center">
               {props._email  && <span className="mx-3">{props._email}</span>}
               {!props._email ?
                 <form className="d-flex">
-                  <Link className="btn  mx-1" to="/prelogin" role="button">Login</Link>
-                  <Link className="btn  mx-1" to="/presignup" role="button">Signup</Link>
+                  <StyledLink className="hover-btn" to="/prelogin" role="button">Login</StyledLink>
+                  <StyledLink classname="hover-btn1" to="/presignup" role="button">Sign Up</StyledLink>
                 </form>
                 :
                 <button onClick={logout} type="submit" className="">Logout</button>

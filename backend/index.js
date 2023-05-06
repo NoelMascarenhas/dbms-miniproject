@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 // const bcrypt = require('bcryptjs');
 const JWT_SECRET = "mit132334#@$$$";
 
-const {students, guides, coordinators} = require('./models/User');
+const {student, guide, seminar_coordinator} = require('./models/User');
 // const Sequelize = require('sequelize');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -21,11 +21,12 @@ const cors = require('cors');
 // signup actaul student
 app.post('/studentpost', [
   // Validate the name field
-  body('name').notEmpty().isLength({ max: 255 }),
-
+  body('Sno').notEmpty().isLength({max: 10}),
+  body('Sname').notEmpty().isLength({ max: 255 }),
+  body('Panel').notEmpty().isLength({max: 10}),
+  body('Mobile').notEmpty().isLength({max: 10}),
   // Validate the email field
-  body('email').notEmpty().isEmail(),
-
+  body('Email').notEmpty().isEmail(),
   // Validate the password field
   body('cpassword').notEmpty().isLength({ min: 6 }),
 
@@ -50,9 +51,9 @@ app.post('/studentpost', [
 
 
   // Insert the user data into the MySQL database
-  const { name, email, cpassword  ,confirmPassword } = req.body;
+  const { Sno, Sname, Panel, Mobile, Email, cpassword  ,confirmPassword } = req.body;
  
-  students.create({ name, email, cpassword : hashedPassword ,confirmPassword })
+  student.create({ Sno, Sname, Panel, Mobile, Email, cpassword : hashedPassword ,confirmPassword })
   .then((student) => {
     const payload = { id: student.id };
     const token = jwt.sign(payload, JWT_SECRET);
@@ -69,10 +70,13 @@ app.post('/studentpost', [
 // signup actaul guide
 app.post('/guidepost', [
     // Validate the name field
-    body('name').notEmpty().isLength({ max: 255 }),
+    body('Fid').notEmpty().isLength({ max: 10 }),
+    body('Fname').notEmpty().isLength({ max: 255 }),
+    body('Mobile').notEmpty().isLength({ max: 10 }),
   
     // Validate the email field
-    body('email').notEmpty().isEmail(),
+    body('Email').notEmpty().isEmail(),
+    body('Domain').notEmpty().isLength({ max: 10 }),
   
     // Validate the password field
     body('cpassword').notEmpty().isLength({ min: 6 }),
@@ -98,15 +102,15 @@ app.post('/guidepost', [
   
   
     // Insert the user data into the MySQL database
-    const { name, email, cpassword  ,confirmPassword } = req.body;
+    const { Fid, Fname, Mobile, Email,Domain, cpassword  ,confirmPassword } = req.body;
    
-    guides.create({ name, email, cpassword : hashedPassword ,confirmPassword })
-    .then((guides) => {
-      const payload = { id: guides.id };
+    guide.create({ Fid, Fname, Mobile, Email, Domain, cpassword : hashedPassword ,confirmPassword })
+    .then((guide) => {
+      const payload = { id: guide.id };
       const token = jwt.sign(payload, JWT_SECRET);
       console.log(token);
       success=true;
-              res.status(201).json({success,guides,token});
+              res.status(201).json({success,guide,token});
             })
             .catch((error) => {
              console.log("Error :",error);
@@ -117,7 +121,9 @@ app.post('/guidepost', [
   // signup actaul coordinator
 app.post('/coordinatorpost', [
     // Validate the name field
-    body('name').notEmpty().isLength({ max: 255 }),
+    body('Fid').notEmpty().isLength({ max: 10 }),
+    body('Fname').notEmpty().isLength({ max: 255 }),
+    body('Mobile').notEmpty().isLength({ max: 10 }),
   
     // Validate the email field
     body('email').notEmpty().isEmail(),
@@ -145,15 +151,15 @@ app.post('/coordinatorpost', [
    const hashedPassword = await bcrypt.hash(req.body.cpassword, salt);
   
     // Insert the user data into the MySQL database
-    const { name, email, cpassword  ,confirmPassword } = req.body;
+    const { Fid, Fname, email, cpassword  ,confirmPassword } = req.body;
    
-    coordinators.create({ name, email, cpassword : hashedPassword ,confirmPassword })
-    .then((coordinators) => {
-      const payload = { id: coordinators.id };
+    seminar_coordinator.create({ Fid, Fname, email, cpassword : hashedPassword ,confirmPassword })
+    .then((seminar_coordinator) => {
+      const payload = { id: seminar_coordinator.id };
       const token = jwt.sign(payload, JWT_SECRET);
       console.log(token);
       success=true;
-              res.status(201).json({success,coordinators,token});
+              res.status(201).json({success,seminar_coordinator,token});
             })
             .catch((error) => {
              console.log("Error :",error);
@@ -175,7 +181,7 @@ app.post('/login', async (req, res) => {
   const { email, cpassword } = req.body;
 
   // Find the user in the MySQL database
-  const user = await students.findOne({ where: { email: email } });
+  const user = await student.findOne({ where: { Sno: Sno } });
   if (!user) {
     return res.status(400).json({success, message: 'Invalid credentials' });
   }
@@ -199,7 +205,7 @@ app.post('/guidelogin', async (req, res) => {
     const { email, cpassword } = req.body;
   
     // Find the user in the MySQL database
-    const user = await guides.findOne({ where: { email: email } });
+    const user = await guide.findOne({ where: { email: email } });
     if (!user) {
       return res.status(400).json({success, message: 'Invalid credentials' });
     }
@@ -277,8 +283,8 @@ const mysql = require('mysql2/promise');
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
-  password: 'root123',
-  database: 'seminar',
+  password: 'noel',
+  database: 'seminar1',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0

@@ -2,8 +2,7 @@ const Sequelize = require('sequelize');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-
-const sequelize = new Sequelize('seminar', 'root', 'root123', {
+const sequelize = new Sequelize('seminar1', 'root', 'noel', {
   host:'localhost',   // to connect mysql database
   dialect: 'mysql'
 });
@@ -15,16 +14,27 @@ sequelize.authenticate()
     console.error('Unable to connect to MySQL server:', error);
   });
 
-  const students = sequelize.define('students', {
-    name: {
+  const students = sequelize.define('student', {
+    Sno: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      primaryKey: true
+    },
+    Sname: {
       type: Sequelize.STRING,
       allowNull: false
     },
-    email: {
+    Panel: {
       type: Sequelize.STRING,
-      allowNull: false,
-      unique: true,
-      primaryKey: true
+      allowNull: false
+    },
+    Mobile:{
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
+    Email: {
+      type: Sequelize.STRING,
+      allowNull: false
     },
     cpassword: {
       type: Sequelize.STRING,
@@ -36,85 +46,135 @@ sequelize.authenticate()
     }
   });
 
-  const coordinators = sequelize.define('coordinators', {
-    name: {
+  const coordinators = sequelize.define('seminar_coordinator', {
+    Fid: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      primaryKey: true
+    },
+    Fname: {
       type: Sequelize.STRING,
       allowNull: false
     },
-    email: {
+    Mobile:{
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
+    Email: {
       type: Sequelize.STRING,
+      allowNull: false
+    },
+    cpassword: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    confirmPassword :{
+      type: Sequelize.STRING,
+      allowNull:false
+    }
+  });
 
+  const guides = sequelize.define('guide', {
+    Fid: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      primaryKey: true
+    },
+    Fname: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    Mobile:{
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
+    Email: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    Domain: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    cpassword: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    confirmPassword :{
+      type: Sequelize.STRING,
+      allowNull:false
+    }
+  });
+
+  const topics = sequelize.define('topic',{
+    Sno: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'student',
+        key: 'Sno'
+      }
+    },
+    topic_1: {
+      type: Sequelize.STRING,
       allowNull: false,
       unique: true
     },
-    cpassword: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    confirmPassword :{
-      type: Sequelize.STRING,
-      allowNull:false
-    }
-  });
-
-  const guides = sequelize.define('guides', {
-    name: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    email: {
+    topic_2: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true,
-      primaryKey: true
+      unique: true
     },
-    cpassword: {
+    topic_3: {
       type: Sequelize.STRING,
-      allowNull: false
-    },
-    confirmPassword :{
-      type: Sequelize.STRING,
-      allowNull:false
+      allowNull: false,
+      unique: true
     }
   });
 
-  const review1 = sequelize.define('review1', {
-    guideEmail: {
+  const review1 = sequelize.define('review_1', {
+    Sno: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'student',
+        key: 'Sno'
+      }
+    },
+    Topic: {
       type: Sequelize.STRING,
       allowNull: false,
       references: {
-        model: 'guides',
-        key: 'email'
+        model: 'topic',
+        key: 'topic_1'
       }
     },
-    studentEmail: {
+    Fid: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'guide',
+        key: 'Fid'
+      }
+    },
+    Domain:{
       type: Sequelize.STRING,
       allowNull: false,
       references: {
-        model: 'students',
-        key: 'email'
+        model: 'guide',
+        key: 'Domain'
       }
     },
-    topic1: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      unique: true
-      
+    Date:{
+      type: Sequelize.DATE,
+      allowNull: false
     },
-    topic2: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      unique: true
-    
-    }, 
-    topic3: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      unique: true
-     
-    },
+    Marks:{
+      type: Sequelize.INTEGER,
+      allowNull: false
+    }
   });
-
+/*
   const  review1_results = sequelize.define('review1_results', {
     email: {
       type: Sequelize.STRING,
@@ -228,4 +288,6 @@ Ppt3.belongsTo(students, { foreignKey: 'studentEmail' });
   .catch((error) => {
     console.error('Unable to synchronize schema with database:',error);
   });
-module.exports =  {students,coordinators,guides,review1,review1_results,Ppt,Ppt3,review2_results ,review3_results} 
+*/
+//module.exports =  {students,coordinators,guides,review1,review1_results,Ppt,Ppt3,review2_results ,review3_results} 
+module.exports = {students,coordinators,guides,topics,review1}

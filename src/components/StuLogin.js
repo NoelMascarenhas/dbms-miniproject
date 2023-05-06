@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
+import './StuLogin.css'
 
 function StuLogin(props) {
 
@@ -25,7 +26,7 @@ function StuLogin(props) {
       navigate('/review');
     alert("Successfully Loged in")
     } else {
-      navigate('/login');
+      navigate('/stulogin');
     alert("Please Login With Correct Credentials")
     }
   };
@@ -50,21 +51,17 @@ function StuLogin(props) {
       justify-content: center;
       align-items: center;
     }
-
     .form-container {
       background-color: rgba(255, 255, 255, 0.8);
       padding: 30px;
       border-radius: 5px;
     }
-
     .form-label {
       font-weight: bold;
     }
-
     .form-control {
       border-radius: 5px;
     }
-
     .btn-primary {
       background-color: #007bff;
       border: none;
@@ -72,7 +69,6 @@ function StuLogin(props) {
       padding: 10px 20px;
       margin-top: 10px;
     }
-
     .btn-primary:hover {
       background-color: #0069d9;
     }
@@ -128,7 +124,7 @@ function StuLogin(props) {
               <input type='password' className='form-control' value={credentials.cpassword} onChange={onChange} name='cpassword' id='cpassword' required />
             </div>
 
-            <button type='submit' className='btn btn-primary'>
+            <button type='submit' className='btn-primary'>
               Submit
             </button>
           </form>

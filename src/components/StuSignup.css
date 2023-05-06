@@ -1,0 +1,51 @@
+h2{
+    color: blanchedalmond;
+    font-weight: 700;
+    text-align: center;
+    margin: 0px 300px 0px 300px;
+    background-color: blueviolet;
+    padding: 30px 50px 30px 0px;
+    border-radius:30px;
+    
+}
+
+
+.my-5{
+    margin: 0px 300px 0px 300px;
+    background-color: rgb(208, 231, 236);
+    padding: 0px 50px 30px 40px;
+    border-radius: 30px;
+    
+}
+
+.btn-primary{
+    margin-top: 10px;
+    margin-left: 170px;
+    text-transform: uppercase;
+    width: 150px;
+    height: 60px;
+    color: #fff;
+    font-weight: 700;
+    background-color: #ed6c0d;
+    background-image: linear-gradient(261deg,#f69b00,#ed6a00);
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-primary:hover{
+    
+    color: black;
+}
+
+.form-label{
+    font-weight: bolder;
+    font-size: large;
+    color: rgb(15, 86, 119);
+    
+}
+
+.my-element{
+    float: right;
+}
